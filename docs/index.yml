@@ -4,3 +4,5 @@
       path: welcome.md
     - name: Changelog
       path: changelog.md
+    - name: Example
+      path: ./examples/index.md
