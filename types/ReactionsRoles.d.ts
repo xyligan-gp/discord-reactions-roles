@@ -7,12 +7,13 @@ import {
 
 import { Utils } from "./Utils";
 
-import Options from "./Options";
 import {
   CreateReactionsRolesData,
   EditReactionsRolesData,
   GuildReactionsRoles
 } from "./Data";
+
+import Options from "./Options";
 
 import { ModuleEvents } from "./Events";
 

@@ -25,28 +25,10 @@ import {
     ReactionsRolesMessages
 } from "../types/Data";
 
-
-/**
- * @typedef {object} Events
- * 
- * @prop {string} READY Module ready event
- */
-export enum Events {
-    READY = "ready",
-    ROLE_ADDED = "roleAdded",
-    ROLE_REMOVED = "roleRemoved"
-}
-
-/**
- * @typedef {object} EditMode
- * 
- * @prop {string} ADD Add new data mode
- * @prop {string} REMOVE Delete old data mode
- */
-export enum EditMode {
-    ADD = "EDIT_ADD",
-    REMOVE = "EDIT_REMOVE"
-}
+import {
+    EditMode,
+    Events
+} from "./Enums";
 
 /**
  * Class that controls Reaction Roles System
@@ -281,7 +263,7 @@ export class ReactionsRoles extends Emitter {
                 }
 
                 case EditMode.REMOVE: {
-                    if(!reactionRoleData.find(data => data.roleID === options.role.id || data.raw === parsedEmoji.raw)) return rej(`Reaction/role '${options.emoji}/${options.role}' not found in menu with message ID '${messageID}'!`);
+                    if(!reactionRoleData.find(data => data.roleID === options.role.id && data.raw === parsedEmoji.raw)) return rej(`Reaction/role '${options.emoji}/${options.role}' not found in menu with message ID '${messageID}'!`);
 
                     const editedReactionRoleData = reactionRoleData.filter(data => data.raw != parsedEmoji.raw && data.roleID != options.role.id);
                     if(editedReactionRoleData.length <= 0) return this.remove(guildID, messageID);
@@ -294,7 +276,7 @@ export class ReactionsRoles extends Emitter {
 
                             const embed = EmbedBuilder.from(menuMessage.embeds[0]);
 
-                            await menuMessage.reactions.cache.get(parsedEmoji.raw).remove();
+                            await menuMessage.reactions.cache.get(parsedEmoji?.id ?? parsedEmoji.raw).remove();
                             
                             for(let i = 0; i < reactionRolesMenu.data.length; i++) {
                                 const data = reactionRolesMenu.data[i];
@@ -380,6 +362,8 @@ export class ReactionsRoles extends Emitter {
      * Method for module initialization
      * 
      * @param {Options} [options] Module Options
+     * 
+     * @private
      */
     private init(options?: Options): void {
         const interval = setInterval(async () => {
@@ -403,6 +387,8 @@ export class ReactionsRoles extends Emitter {
 
     /**
 	 * Method for module database initialization
+     * 
+     * @private
 	 */
     private initDatabase(): void {
         this.database = new Enmap({
@@ -414,6 +400,8 @@ export class ReactionsRoles extends Emitter {
 
     /**
      * Method for starting client event tracking
+     * 
+     * @private
      */
     private monitorEvents(): void {
         this.client.on("messageReactionAdd", async (reaction, user) => {
@@ -442,7 +430,7 @@ export class ReactionsRoles extends Emitter {
                                 if(!guildMember?.roles?.cache?.has(reactionRole.roleID)) {
                                     await guildMember?.roles?.add(reactionRole.roleID);
 
-                                    this.emit(Events.ROLE_ADDED, reaction, user, reactionsRoles);
+                                    this.emit(Events.ROLE_ADDED, user, reactionRole);
                                 }
                             } catch(error) {
                                 return;
@@ -479,7 +467,7 @@ export class ReactionsRoles extends Emitter {
                                 if(guildMember?.roles?.cache?.has(reactionRole.roleID)) {
                                     await guildMember?.roles?.remove(reactionRole.roleID);
 
-                                    this.emit(Events.ROLE_REMOVED, reaction, user, reactionsRoles);
+                                    this.emit(Events.ROLE_REMOVED, user, reactionRole);
                                 }
                             } catch(error) {
                                 return;
@@ -505,9 +493,8 @@ export class ReactionsRoles extends Emitter {
  * 
  * @event ReactionsRoles#roleAdded
  * 
- * @param {MessageReaction} reaction Message Reaction Data
  * @param {User} user Reaction User Data
- * @param {GuildReactionsRoles} data Reactions Roles Data
+ * @param {GuildReactionRole} data Reaction Role Data
  */
 
 /**
@@ -515,9 +502,8 @@ export class ReactionsRoles extends Emitter {
  * 
  * @event ReactionsRoles#roleRemoved
  * 
- * @param {MessageReaction} reaction Message Reaction Data
  * @param {User} user Reaction User Data
- * @param {GuildReactionsRoles} data Reactions Roles Data
+ * @param {GuildReactionRole} data Reaction Role Data
  */
 
 /**

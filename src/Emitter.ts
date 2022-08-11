@@ -1,7 +1,7 @@
 import EventEmitter from "events";
 const emitter = new EventEmitter();
 
-import { Events } from "./ReactionsRoles";
+import { Events } from "./Enums";
 
 /**
  * Class that controls Module Emitter

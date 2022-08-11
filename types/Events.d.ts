@@ -1,10 +1,12 @@
-import { MessageReaction, User } from "discord.js";
-import { GuildReactionsRoles } from "./Data";
+import { User } from "discord.js";
+
 import { ReactionsRoles } from "./ReactionsRoles";
+
+import { GuildReactionRole } from "./Data";
 
 export interface ModuleEvents {
     ready: [client: ReactionsRoles];
 
-    roleAdded: [reaction: MessageReaction, user: User, data: GuildReactionsRoles];
-    roleRemoved: [reaction: MessageReaction, user: User, data: GuildReactionsRoles];
+    roleAdded: [user: User, data: GuildReactionRole];
+    roleRemoved: [user: User, data: GuildReactionRole];
 }

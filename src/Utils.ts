@@ -20,7 +20,7 @@ export class Utils {
     /**
      * @constructor
      * 
-     * @param {ReactionRoles} reactionsRoles Reaction Roles Class
+     * @param {ReactionsRoles} reactionsRoles Reaction Roles Class
      */
     constructor(reactionsRoles: ReactionsRoles) {
         /**
@@ -100,10 +100,10 @@ export class Utils {
             Partials.User
         ]
 
-        const clientPartials = new IntentsBitField(this.reactionsRoles.client.options.partials);
+        const clientPartials = this.reactionsRoles.client.options.partials;
 
         for(const partial of defaultPartials) {
-            if(!clientPartials.has(partial)) throw new Error(`Missing required client partial: '${Partials[partial]}'!`);
+            if(!clientPartials.includes(partial)) throw new Error(`Missing required client intent: '${Partials[partial]}'!`);
         }
     }
 
@@ -126,7 +126,7 @@ export class Utils {
             id: guildEmoji?.id ?? null,
             name: guildEmoji?.name ?? null,
             raw: parseData.allEmojis[0]?.raw ?? null,
-            isValid: guildEmoji ? true : parseData.allEmojis[0]?.raw.startsWith("<") ? false : true,
+            isValid: guildEmoji ? true : parseData.allEmojis[0]?.raw ? parseData.allEmojis[0].raw.includes("<") ? false : true : false,
             unicode: parseData.allEmojis[0]?.unicode ?? null,
             animated: parseData.allEmojis[0]?.animated ?? null
         }

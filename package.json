@@ -1,13 +1,14 @@
 {
   "name": "discord-reactions-roles",
-  "version": "1.0.0",
-  "description": "A simple and powerful module for discord.js that adds the functionality of roles by reaction",
+  "version": "1.0.2",
+  "description": "A simple and powerful module for adding a reaction role system to your discord.js project",
   "main": "index.js",
   "scripts": {
     "build": "rimraf build && tsc -p tsconfig.json",
+    "build:old": "tsc -p tsconfig.json",
     "build:docs": "docgen -s src/*.ts src/**/*.ts -o docs/index.json -c docs/index.yml -g -S 1 -j .jsconfig.json",
-    "publish": "npm publish",
-    "publish:dev": "npm publish --tag dev"
+    "pub": "npm publish",
+    "pub:dev": "npm publish --tag dev"
   },
   "repository": {
     "type": "git",
@@ -21,9 +22,19 @@
   "homepage": "https://drr.js.org",
   "dependencies": {
     "discord-message-parser": "^1.0.1",
-    "discord.js": "^14.1.2",
+    "discord.js": "^14.2.0",
     "enmap": "^5.9.0"
   },
+  "keywords": [
+    "discord",
+    "discord-bot",
+    "discord.js",
+    "reactions",
+    "roles",
+    "reactions-roles",
+    "discord-reactions-roles",
+    "xyligan"
+  ],
   "devDependencies": {
     "@babel/core": "^7.18.10",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
@@ -37,9 +48,6 @@
   },
   "engines": {
     "node": ">=16.9.0"
-  },
-  "peerDependencies": {
-    "discord.js": "14"
   },
   "types": "./types/ReactionsRoles.d.ts"
 }
