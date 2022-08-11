@@ -1,0 +1,1698 @@
+{
+ "meta": {
+  "generator": "0.11.1",
+  "format": 22,
+  "date": 1660226736068
+ },
+ "custom": {
+  "general": {
+   "name": "General",
+   "files": {
+    "welcome": {
+     "name": "Welcome",
+     "type": "md",
+     "content": "<div align=\"center\">\r\n\t<h1>Welcome to the 'discord-reactions-roles' page!</h1>\r\n\t<br />\r\n\t<p>\r\n\t\t<a href=\"https://drr.js.org\"><img src=\"https://i.imgur.com/qpSadfv.gif\" width=\"546\" alt=\"DRR Main Image\" /></a>\r\n\t</p>\r\n\t<br/>\r\n\t<p>\r\n\t\t<a href=\"https://discord.gg/zzbkvCcu2r\"><img src=\"https://img.shields.io/discord/827221018879328298?color=5865F2&logo=discord&logoColor=white\" alt=\"Support Server\" /></a>\r\n\t\t<a href=\"https://www.npmjs.com/package/discord-reactions-roles\"><img src=\"https://img.shields.io/npm/dt/discord-reactions-roles.png?maxAge=3600\" alt=\"NPM downloads\" /></a>\r\n\t\t<a href=\"https://www.npmjs.com/package/discord-reactions-roles\"><img src=\"https://img.shields.io/npm/v/discord-reactions-roles.png?maxAge=3600\" alt=\"NPM page\" /></a>\r\n\t</p>\r\n</div>\r\n\r\n## About\r\n\r\n**Discord Reactions Roles is a modern and powerful [Node.js](https://nodejs.org) module for creating a reaction role system in your Discord bot.**\r\n\r\n* 👍 Simple & easy to use\r\n* 😄 Beginner friendly\r\n* 💿 Minimum load\r\n* 📂 Multiple servers\r\n\r\n## Installation\r\n\r\n**Node.js 16.9.0 or newer is required.**\r\n\r\n```sh-session\r\n$ npm install discord-reactions-roles\r\n$ yarn add discord-reactions-roles\r\n$ pnpm add discord-reactions-roles\r\n```\r\n\r\n## Example Usage\r\n\r\n```js\r\nconst { Client, GatewayIntentBits, Partials } = require('discord.js');\r\nconst { ReactionsRoles } = require('discord-reactions-roles');\r\n\r\nconst client = new Client({\r\n    intents: [\r\n        GatewayIntentBits.Guilds,\r\n        GatewayIntentBits.GuildMembers,\r\n        GatewayIntentBits.GuildMessages,\r\n        GatewayIntentBits.GuildMessageReactions\r\n    ],\r\n\r\n    partials: [\r\n        Partials.Message,\r\n        Partials.Reaction,\r\n        Partials.User\r\n    ]\r\n});\r\n\r\nclient.reactions = new ReactionsRoles(client);\r\n\r\nclient.on('ready', async () => {\r\n  \treturn console.log('Client is ready!');\r\n})\r\n\r\nclient.reactions.on('ready', async () => {\r\n\treturn console.log('ReactionsRoles is ready!');\r\n})\r\n\r\nclient.login('YOUR_CLIENT_TOKEN_HERE');\r\n```\r\n\r\n## Links\r\n\r\n* NPM: [Open](https://www.npmjs.com/package/discord-reactions-roles)\r\n* GitHub: [Open](https://github.com/xyligan-gp/discord-reactions-roles)\r\n* Documentation: [Open](https://drr.js.org)\r\n\r\n* Module Developer: [xyligan](https://github.com/xyligan-gp)\r\n* Developer Discord: [♡ xүℓ[ι]gαη4εg ♡#9457](https://discord.com/users/533347075463577640)\r\n* Support Server: [Join xyligan development](https://discord.gg/zzbkvCcu2r)\r\n\r\n<center><h1>♥ Thanks for using Discord Reactions Roles ♥</h1></center>",
+     "path": "docs/general/welcome.md"
+    },
+    "changelog": {
+     "name": "Changelog",
+     "type": "md",
+     "content": "# Module Changelog\r\n* ***Version 1.0.0***\r\n  * Release module",
+     "path": "docs/general/changelog.md"
+    }
+   }
+  }
+ },
+ "classes": [
+  {
+   "name": "Emitter",
+   "description": "Module Emitter Class",
+   "access": "private",
+   "methods": [
+    {
+     "name": "on",
+     "description": "Method for listening module events",
+     "params": [
+      {
+       "name": "event",
+       "description": "Event Name",
+       "type": [
+        [
+         [
+          "Events"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "data",
+       "description": "Event Data",
+       "type": [
+        [
+         [
+          "any"
+         ]
+        ]
+       ]
+      }
+     ],
+     "returns": {
+      "types": [
+       [
+        [
+         "EventEmitter"
+        ]
+       ]
+      ],
+      "description": "EventEmitter Class"
+     },
+     "meta": {
+      "line": 15,
+      "file": "Emitter.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "once",
+     "description": "Method to listen for an module event only once",
+     "params": [
+      {
+       "name": "event",
+       "description": "Event Name",
+       "type": [
+        [
+         [
+          "Events"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "data",
+       "description": "Event Data",
+       "type": [
+        [
+         [
+          "any"
+         ]
+        ]
+       ]
+      }
+     ],
+     "returns": {
+      "types": [
+       [
+        [
+         "EventEmitter"
+        ]
+       ]
+      ],
+      "description": "EventEmitter Class"
+     },
+     "meta": {
+      "line": 27,
+      "file": "Emitter.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "emit",
+     "description": "Method for emits module events",
+     "params": [
+      {
+       "name": "event",
+       "description": "Event Name",
+       "type": [
+        [
+         [
+          "Events"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "args",
+       "description": "Event Args",
+       "variable": true,
+       "type": [
+        [
+         [
+          "any"
+         ]
+        ]
+       ]
+      }
+     ],
+     "returns": {
+      "types": [
+       [
+        [
+         "boolean"
+        ]
+       ]
+      ],
+      "description": "Event emit status"
+     },
+     "meta": {
+      "line": 39,
+      "file": "Emitter.ts",
+      "path": "src"
+     }
+    }
+   ],
+   "meta": {
+    "line": 6,
+    "file": "Emitter.ts",
+    "path": "src"
+   }
+  },
+  {
+   "name": "ReactionsRoles",
+   "description": "ReactionRoles Class",
+   "extends": [
+    [
+     [
+      "Emitter"
+     ]
+    ]
+   ],
+   "construct": {
+    "name": "ReactionsRoles",
+    "params": [
+     {
+      "name": "client",
+      "description": "Discord Client",
+      "type": [
+       [
+        [
+         "Client"
+        ]
+       ]
+      ]
+     },
+     {
+      "name": "options",
+      "description": "Module Options",
+      "optional": true,
+      "type": [
+       [
+        [
+         "Options"
+        ]
+       ]
+      ]
+     }
+    ]
+   },
+   "props": [
+    {
+     "name": "author",
+     "description": "Module Author",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ],
+     "meta": {
+      "line": 72,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "website",
+     "description": "Module Website URL",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ],
+     "meta": {
+      "line": 79,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "version",
+     "description": "Module Version",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ],
+     "meta": {
+      "line": 86,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "ready",
+     "description": "Module Ready Status",
+     "type": [
+      [
+       [
+        "boolean"
+       ]
+      ]
+     ],
+     "meta": {
+      "line": 93,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "readyTimestamp",
+     "description": "Module Ready Timestamp",
+     "type": [
+      [
+       [
+        "number"
+       ]
+      ]
+     ],
+     "meta": {
+      "line": 100,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "options",
+     "description": "Module Options",
+     "type": [
+      [
+       [
+        "Options"
+       ]
+      ]
+     ],
+     "meta": {
+      "line": 107,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "database",
+     "description": "Module Database",
+     "type": [
+      [
+       [
+        "Enmap",
+        "<"
+       ],
+       [
+        "string",
+        ", "
+       ],
+       [
+        "Array",
+        "<"
+       ],
+       [
+        "GuildReactionsRoles",
+        ">>"
+       ]
+      ]
+     ],
+     "meta": {
+      "line": 114,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "utils",
+     "description": "Module Utils",
+     "type": [
+      [
+       [
+        "Utils"
+       ]
+      ]
+     ],
+     "meta": {
+      "line": 121,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    }
+   ],
+   "methods": [
+    {
+     "name": "create",
+     "description": "Method for creating new menus to distribute roles by reaction",
+     "params": [
+      {
+       "name": "channel",
+       "description": "Discord Guild text Channel",
+       "type": [
+        [
+         [
+          "TextChannel"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "options",
+       "description": "Reactions Roles Options",
+       "type": [
+        [
+         [
+          "CreateReactionsRolesData"
+         ]
+        ]
+       ]
+      }
+     ],
+     "returns": {
+      "types": [
+       [
+        [
+         "Promise",
+         "<"
+        ],
+        [
+         "GuildReactionsRoles",
+         ">"
+        ]
+       ]
+      ],
+      "description": "Object with the data of the created menu"
+     },
+     "meta": {
+      "line": 131,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "edit",
+     "description": "Method for changing the menu of roles by reaction (adding/removing reactions)",
+     "params": [
+      {
+       "name": "guildID",
+       "description": "Discord Guild ID",
+       "type": [
+        [
+         [
+          "string"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "messageID",
+       "description": "Discord Guild Message ID",
+       "type": [
+        [
+         [
+          "string"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "mode",
+       "description": "Edit Mode",
+       "type": [
+        [
+         [
+          "EditMode"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "options",
+       "description": "Edit Options",
+       "type": [
+        [
+         [
+          "EditReactionsRolesData"
+         ]
+        ]
+       ]
+      }
+     ],
+     "returns": {
+      "types": [
+       [
+        [
+         "Promise",
+         "<"
+        ],
+        [
+         "GuildReactionsRoles",
+         ">"
+        ]
+       ]
+      ],
+      "description": "Modified menu data object"
+     },
+     "meta": {
+      "line": 203,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "remove",
+     "description": "Method for removing server menus of roles by reaction",
+     "params": [
+      {
+       "name": "guildID",
+       "description": "Discord Guild ID",
+       "type": [
+        [
+         [
+          "string"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "messageID",
+       "description": "Discord Guild Message ID",
+       "type": [
+        [
+         [
+          "string"
+         ]
+        ]
+       ]
+      }
+     ],
+     "returns": {
+      "types": [
+       [
+        [
+         "Promise",
+         "<"
+        ],
+        [
+         "boolean",
+         ">"
+        ]
+       ]
+      ],
+      "description": "Deletion state"
+     },
+     "meta": {
+      "line": 305,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "init",
+     "description": "Method for module initialization",
+     "params": [
+      {
+       "name": "options",
+       "description": "Module Options",
+       "optional": true,
+       "type": [
+        [
+         [
+          "Options"
+         ]
+        ]
+       ]
+      }
+     ],
+     "meta": {
+      "line": 361,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "initDatabase",
+     "description": "Method for module database initialization",
+     "meta": {
+      "line": 362,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "monitorEvents",
+     "description": "Method for starting client event tracking",
+     "meta": {
+      "line": 397,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "on",
+     "description": "Method for listening module events",
+     "inherits": "Emitter#on",
+     "inherited": true,
+     "params": [
+      {
+       "name": "event",
+       "description": "Event Name",
+       "type": [
+        [
+         [
+          "Events"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "data",
+       "description": "Event Data",
+       "type": [
+        [
+         [
+          "any"
+         ]
+        ]
+       ]
+      }
+     ],
+     "returns": {
+      "types": [
+       [
+        [
+         "EventEmitter"
+        ]
+       ]
+      ],
+      "description": "EventEmitter Class"
+     },
+     "meta": {
+      "line": 15,
+      "file": "Emitter.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "once",
+     "description": "Method to listen for an module event only once",
+     "inherits": "Emitter#once",
+     "inherited": true,
+     "params": [
+      {
+       "name": "event",
+       "description": "Event Name",
+       "type": [
+        [
+         [
+          "Events"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "data",
+       "description": "Event Data",
+       "type": [
+        [
+         [
+          "any"
+         ]
+        ]
+       ]
+      }
+     ],
+     "returns": {
+      "types": [
+       [
+        [
+         "EventEmitter"
+        ]
+       ]
+      ],
+      "description": "EventEmitter Class"
+     },
+     "meta": {
+      "line": 27,
+      "file": "Emitter.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "emit",
+     "description": "Method for emits module events",
+     "inherits": "Emitter#emit",
+     "inherited": true,
+     "params": [
+      {
+       "name": "event",
+       "description": "Event Name",
+       "type": [
+        [
+         [
+          "Events"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "args",
+       "description": "Event Args",
+       "variable": true,
+       "type": [
+        [
+         [
+          "any"
+         ]
+        ]
+       ]
+      }
+     ],
+     "returns": {
+      "types": [
+       [
+        [
+         "boolean"
+        ]
+       ]
+      ],
+      "description": "Event emit status"
+     },
+     "meta": {
+      "line": 39,
+      "file": "Emitter.ts",
+      "path": "src"
+     }
+    }
+   ],
+   "events": [
+    {
+     "name": "ready",
+     "description": "Emits when the module is ready",
+     "params": [
+      {
+       "name": "client",
+       "description": "Reactions Roles instance",
+       "type": [
+        [
+         [
+          "ReactionsRoles"
+         ]
+        ]
+       ]
+      }
+     ],
+     "meta": {
+      "line": 477,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "roleAdded",
+     "description": "Emitted when the user has received a role for clicking on a reaction",
+     "params": [
+      {
+       "name": "reaction",
+       "description": "Message Reaction Data",
+       "type": [
+        [
+         [
+          "MessageReaction"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "user",
+       "description": "Reaction User Data",
+       "type": [
+        [
+         [
+          "User"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "data",
+       "description": "Reactions Roles Data",
+       "type": [
+        [
+         [
+          "GuildReactionsRoles"
+         ]
+        ]
+       ]
+      }
+     ],
+     "meta": {
+      "line": 485,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "roleRemoved",
+     "description": "Emitted when a user has lost a role for deleting a previously added reaction",
+     "params": [
+      {
+       "name": "reaction",
+       "description": "Message Reaction Data",
+       "type": [
+        [
+         [
+          "MessageReaction"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "user",
+       "description": "Reaction User Data",
+       "type": [
+        [
+         [
+          "User"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "data",
+       "description": "Reactions Roles Data",
+       "type": [
+        [
+         [
+          "GuildReactionsRoles"
+         ]
+        ]
+       ]
+      }
+     ],
+     "meta": {
+      "line": 495,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    }
+   ],
+   "meta": {
+    "line": 33,
+    "file": "ReactionsRoles.ts",
+    "path": "src"
+   }
+  },
+  {
+   "name": "Utils",
+   "construct": {
+    "name": "Utils",
+    "params": [
+     {
+      "name": "reactionsRoles",
+      "description": "Reaction Roles Class",
+      "type": [
+       [
+        [
+         "ReactionRoles"
+        ]
+       ]
+      ]
+     }
+    ]
+   },
+   "props": [
+    {
+     "name": "reactionsRoles",
+     "description": "Reactions Roles Class",
+     "access": "private",
+     "type": [
+      [
+       [
+        "ReactionsRoles"
+       ]
+      ]
+     ],
+     "meta": {
+      "line": 26,
+      "file": "Utils.ts",
+      "path": "src"
+     }
+    }
+   ],
+   "methods": [
+    {
+     "name": "fetchOptions",
+     "description": "Method for checking module configuration",
+     "params": [
+      {
+       "name": "options",
+       "description": "Module options",
+       "type": [
+        [
+         [
+          "Options"
+         ]
+        ]
+       ]
+      }
+     ],
+     "returns": {
+      "types": [
+       [
+        [
+         "Options"
+        ]
+       ]
+      ],
+      "description": "Valid module configuration"
+     },
+     "meta": {
+      "line": 35,
+      "file": "Utils.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "fetchIntents",
+     "description": "Method for checking client intents",
+     "access": "private",
+     "meta": {
+      "line": 71,
+      "file": "Utils.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "fetchPartials",
+     "description": "Method for checking client partials",
+     "access": "private",
+     "meta": {
+      "line": 91,
+      "file": "Utils.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "parseEmoji",
+     "description": "Method for parsing emoji content",
+     "params": [
+      {
+       "name": "guildID",
+       "description": "Discord Guild ID",
+       "type": [
+        [
+         [
+          "string"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "data",
+       "description": "Emoji content",
+       "type": [
+        [
+         [
+          "string"
+         ]
+        ]
+       ]
+      }
+     ],
+     "returns": {
+      "types": [
+       [
+        [
+         "ParsedEmoji"
+        ]
+       ]
+      ],
+      "description": "Content parsing data"
+     },
+     "meta": {
+      "line": 110,
+      "file": "Utils.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "getChannel",
+     "description": "A method for getting a text channel",
+     "params": [
+      {
+       "name": "guildID",
+       "description": "Discord Guild ID",
+       "type": [
+        [
+         [
+          "string"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "channelID",
+       "description": "Discord Guild Channel ID",
+       "type": [
+        [
+         [
+          "string"
+         ]
+        ]
+       ]
+      }
+     ],
+     "returns": {
+      "types": [
+       [
+        [
+         "Promise",
+         "<"
+        ],
+        [
+         "TextChannel",
+         ">"
+        ]
+       ]
+      ],
+      "description": "Guild Text Channel"
+     },
+     "meta": {
+      "line": 137,
+      "file": "Utils.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "getMessage",
+     "description": "Method for receiving a message on a specified channel",
+     "params": [
+      {
+       "name": "guildID",
+       "description": "Discord Guild ID",
+       "type": [
+        [
+         [
+          "string"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "channelID",
+       "description": "Discord Guild Channel ID",
+       "type": [
+        [
+         [
+          "string"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "messageID",
+       "description": "Discord Guild Message ID",
+       "type": [
+        [
+         [
+          "string"
+         ]
+        ]
+       ]
+      }
+     ],
+     "returns": {
+      "types": [
+       [
+        [
+         "Promise",
+         "<"
+        ],
+        [
+         "Message",
+         ">"
+        ]
+       ]
+      ],
+      "description": "Discord Guild Message"
+     },
+     "meta": {
+      "line": 163,
+      "file": "Utils.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "getMember",
+     "description": "A method to get the server member",
+     "params": [
+      {
+       "name": "guildID",
+       "description": "Discord Guild ID",
+       "type": [
+        [
+         [
+          "string"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "userID",
+       "description": "Discord User ID",
+       "type": [
+        [
+         [
+          "string"
+         ]
+        ]
+       ]
+      }
+     ],
+     "returns": {
+      "types": [
+       [
+        [
+         "Promise",
+         "<"
+        ],
+        [
+         "GuildMember",
+         ">"
+        ]
+       ]
+      ],
+      "description": "Guild Member Data"
+     },
+     "meta": {
+      "line": 192,
+      "file": "Utils.ts",
+      "path": "src"
+     }
+    }
+   ],
+   "meta": {
+    "line": 20,
+    "file": "Utils.ts",
+    "path": "src"
+   }
+  }
+ ],
+ "interfaces": [],
+ "typedefs": [
+  {
+   "name": "Events",
+   "description": "Module events enum",
+   "type": [
+    [
+     [
+      "object"
+     ]
+    ]
+   ],
+   "props": [
+    {
+     "name": "READY",
+     "description": "Module ready event",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ]
+    }
+   ],
+   "meta": {
+    "line": 1,
+    "file": "Enums.ts",
+    "path": "src"
+   }
+  },
+  {
+   "name": "EditMode",
+   "description": "Edit mode enum",
+   "type": [
+    [
+     [
+      "object"
+     ]
+    ]
+   ],
+   "props": [
+    {
+     "name": "ADD",
+     "description": "Add new data mode",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "REMOVE",
+     "description": "Delete old data mode",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ]
+    }
+   ],
+   "meta": {
+    "line": 14,
+    "file": "Enums.ts",
+    "path": "src"
+   }
+  },
+  {
+   "name": "Options",
+   "description": "Module Options",
+   "type": [
+    [
+     [
+      "object"
+     ]
+    ]
+   ],
+   "props": [
+    {
+     "name": "deleteOldMenus",
+     "description": "Delete inactive role menu messages by reaction?",
+     "optional": true,
+     "default": false,
+     "type": [
+      [
+       [
+        "boolean"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "deleteOldMenusReactions",
+     "description": "Remove reactions to inactive role menus by reaction?",
+     "optional": true,
+     "default": true,
+     "type": [
+      [
+       [
+        "boolean"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "database",
+     "description": "Module database configuration",
+     "optional": true,
+     "type": [
+      [
+       [
+        "object"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "database.name",
+     "description": "Database name",
+     "optional": true,
+     "default": "reactions_roles",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "database.path",
+     "description": "Database path",
+     "optional": true,
+     "default": "./",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ]
+    }
+   ],
+   "meta": {
+    "line": 505,
+    "file": "ReactionsRoles.ts",
+    "path": "src"
+   }
+  },
+  {
+   "name": "GuildReactionsRoles",
+   "description": "Guild Reactions Roles Data",
+   "type": [
+    [
+     [
+      "object"
+     ]
+    ]
+   ],
+   "props": [
+    {
+     "name": "author",
+     "description": "Menu author ID",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "created",
+     "description": "Create menu timestamp",
+     "type": [
+      [
+       [
+        "number"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "updated",
+     "description": "Update menu timestamp",
+     "type": [
+      [
+       [
+        "number"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "messages",
+     "description": "Menu Messages",
+     "type": [
+      [
+       [
+        "ReactionsRolesMessages"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "channelID",
+     "description": "Menu channel ID",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "messageID",
+     "description": "Menu message ID",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "data",
+     "description": "Menu reactions & roles data",
+     "type": [
+      [
+       [
+        "Array",
+        "<"
+       ],
+       [
+        "GuildReactionRole",
+        ">"
+       ]
+      ]
+     ]
+    }
+   ],
+   "meta": {
+    "line": 517,
+    "file": "ReactionsRoles.ts",
+    "path": "src"
+   }
+  },
+  {
+   "name": "GuildReactionRole",
+   "description": "Guild Reaction Role Data",
+   "type": [
+    [
+     [
+      "object"
+     ]
+    ]
+   ],
+   "props": [
+    {
+     "name": "id",
+     "description": "Reaction ID",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ],
+      [
+       [
+        "null"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "name",
+     "description": "Reaction Name",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ],
+      [
+       [
+        "null"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "raw",
+     "description": "Reaction Emoji Raw",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "roleID",
+     "description": "Reaction Role ID",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "added",
+     "description": "Reaction Role add timestamp",
+     "type": [
+      [
+       [
+        "number"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "animated",
+     "description": "Reaction is animated?",
+     "type": [
+      [
+       [
+        "boolean"
+       ]
+      ]
+     ]
+    }
+   ],
+   "meta": {
+    "line": 531,
+    "file": "ReactionsRoles.ts",
+    "path": "src"
+   }
+  },
+  {
+   "name": "CreateReactionsRolesData",
+   "description": "Create Reaction Roles Menu Options",
+   "type": [
+    [
+     [
+      "object"
+     ]
+    ]
+   ],
+   "props": [
+    {
+     "name": "role",
+     "description": "Reactin Role Data",
+     "type": [
+      [
+       [
+        "Role"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "emoji",
+     "description": "Emoji Content",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "embed",
+     "description": "Discord Embed Options",
+     "optional": true,
+     "type": [
+      [
+       [
+        "EmbedData"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "author",
+     "description": "Reactions Roles Menu Author ID",
+     "optional": true,
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "messages",
+     "description": "Reaction Roles Menu Messages",
+     "optional": true,
+     "type": [
+      [
+       [
+        "ReactionsRolesMessages"
+       ]
+      ]
+     ]
+    }
+   ],
+   "meta": {
+    "line": 544,
+    "file": "ReactionsRoles.ts",
+    "path": "src"
+   }
+  },
+  {
+   "name": "EditReactionsRolesData",
+   "description": "Edit Reaction Roles Menu Options",
+   "type": [
+    [
+     [
+      "object"
+     ]
+    ]
+   ],
+   "props": [
+    {
+     "name": "role",
+     "description": "Reaction Role Data",
+     "type": [
+      [
+       [
+        "Role"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "emoji",
+     "description": "Emoji Content",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ]
+    }
+   ],
+   "meta": {
+    "line": 556,
+    "file": "ReactionsRoles.ts",
+    "path": "src"
+   }
+  },
+  {
+   "name": "ReactionsRolesMessages",
+   "description": "Reaction Roles Menu Messages",
+   "type": [
+    [
+     [
+      "object"
+     ]
+    ]
+   ],
+   "props": [
+    {
+     "name": "started",
+     "description": "Reactions Roles Menu Start Message",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "ended",
+     "description": "Reactions Roles Menu End Message",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ]
+    }
+   ],
+   "meta": {
+    "line": 565,
+    "file": "ReactionsRoles.ts",
+    "path": "src"
+   }
+  },
+  {
+   "name": "ParsedEmoji",
+   "description": "Parsed Emoji Data",
+   "type": [
+    [
+     [
+      "object"
+     ]
+    ]
+   ],
+   "props": [
+    {
+     "name": "id",
+     "description": "Emoji ID",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "name",
+     "description": "Emoji Name",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "raw",
+     "description": "Emoji pointer as a string",
+     "type": [
+      [
+       [
+        "string"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "isValid",
+     "description": "Is content emoji?",
+     "type": [
+      [
+       [
+        "boolean"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "unicode",
+     "description": "Is emoji unicode?",
+     "type": [
+      [
+       [
+        "boolean"
+       ]
+      ]
+     ]
+    },
+    {
+     "name": "animated",
+     "description": "Is the emoji animated?",
+     "type": [
+      [
+       [
+        "boolean"
+       ]
+      ]
+     ]
+    }
+   ],
+   "meta": {
+    "line": 574,
+    "file": "ReactionsRoles.ts",
+    "path": "src"
+   }
+  }
+ ],
+ "externals": []
+}
