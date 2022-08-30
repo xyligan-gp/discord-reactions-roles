@@ -58,6 +58,25 @@ export declare class ReactionsRoles {
     public create(channel: TextChannel, options: CreateReactionsRolesData): Promise<GuildReactionsRoles>;
 
 	/**
+     * Method for retrieving role menu data by reaction
+     * 
+     * @param guildID Discord Guild ID
+     * @param messageID Discord Guild Message ID
+     * 
+     * @returns Returns an object with role data by reaction
+     */
+	public get(guildID: string, messageID: string): Promise<GuildReactionsRoles>;
+
+	/**
+     * Method to get a list of menu roles by reaction for the server
+     * 
+     * @param guildID Discord Guild ID
+     * 
+     * @returns Returns the list of role menus by server response
+     */
+	public list(guildID: string): Promise<Arrau<GuildReactionsRoles>>;
+
+	/**
      * Method for changing the menu of roles by reaction (adding/removing reactions)
      * 
      * @param guildID Discord Guild ID

@@ -7,7 +7,8 @@ import {
     TextChannel
 } from "discord.js";
 
-import { EmojiParser } from "discord-message-parser";
+import EmojiParser from "discord-emojis-parser";
+import { EmojiParser as EmojisParser } from "discord-message-parser";
 
 import { ReactionsRoles } from "./ReactionsRoles";
 
@@ -119,16 +120,31 @@ export class Utils {
         const guild = this.reactionsRoles.client.guilds.cache.get(guildID);
         if(!guild) throw new Error(`Unknown guild with id '${guildID}'!`);
 
-        const parseData = EmojiParser.parseEmojis(data);
+        let parsed: ParsedEmoji;
         const guildEmoji = guild.emojis.cache.find(e => `<${e.animated ? "a" : ""}:${e.name}:${e.id}>` === data);
 
-        const parsed: ParsedEmoji = {
-            id: guildEmoji?.id ?? null,
-            name: guildEmoji?.name ?? null,
-            raw: parseData.allEmojis[0]?.raw ?? null,
-            isValid: guildEmoji ? true : parseData.allEmojis[0]?.raw ? parseData.allEmojis[0].raw.includes("<") ? false : true : false,
-            unicode: parseData.allEmojis[0]?.unicode ?? null,
-            animated: parseData.allEmojis[0]?.animated ?? null
+        if(data.startsWith("<") && data.endsWith(">")) {
+            const parseData = EmojisParser.parseEmojis(data);
+
+            parsed = {
+                id: guildEmoji?.id ?? null,
+                name: guildEmoji?.name ?? null,
+                raw: parseData.allEmojis[0]?.raw ?? null,
+                isValid: guildEmoji ? true : parseData.allEmojis[0]?.raw ? parseData.allEmojis[0].raw.includes("<") ? false : true : false,
+                unicode: parseData.allEmojis[0]?.unicode ?? null,
+                animated: parseData.allEmojis[0]?.animated ?? null
+            }
+        }else{
+            const parseData = EmojiParser.parse(data);
+
+            parsed = {
+                id: guildEmoji?.id ?? null,
+                name: guildEmoji?.name ?? null,
+                raw: parseData[0]?.unicode ?? null,
+                isValid: parseData.length ? true : false,
+                unicode: parseData.length ? true : false,
+                animated: false
+            }
         }
 
         return parsed;

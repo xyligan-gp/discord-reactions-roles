@@ -136,7 +136,7 @@ export class ReactionsRoles extends Emitter {
      * 
      * @returns {Promise<GuildReactionsRoles>} Object with the data of the created menu
      */
-    create(channel: TextChannel, options: CreateReactionsRolesData): Promise<GuildReactionsRoles> {
+    public create(channel: TextChannel, options: CreateReactionsRolesData): Promise<GuildReactionsRoles> {
         return new Promise(async (res, rej) => {
             const parsedEmoji = this.utils.parseEmoji(channel.guild.id, options.emoji);
             if(!parsedEmoji.isValid) return rej(new Error(`Unknown emoji with content '${options.emoji}'!`));
@@ -179,7 +179,7 @@ export class ReactionsRoles extends Emitter {
                     {
                         id: parsedEmoji.id,
                         name: parsedEmoji.name,
-                        roleID: options.role.id,
+                        roleID: options.role?.id,
                         raw: parsedEmoji.raw,
 
                         added: Date.now(),
@@ -197,6 +197,48 @@ export class ReactionsRoles extends Emitter {
             }else this.database.set(channel.guild.id, [newMenu]);
 
             return res(newMenu);
+        })
+    }
+
+    /**
+     * Method for retrieving role menu data by reaction
+     * 
+     * @param {string} guildID Discord Guild ID
+     * @param {string} messageID Discord Guild Message ID
+     * 
+     * @returns {Promise<GuildReactionsRoles>} Returns an object with role data by reaction
+     */
+    public get(guildID: string, messageID: string): Promise<GuildReactionsRoles> {
+        return new Promise(async (res, rej) => {
+            const guild = this.client.guilds.cache.get(guildID);
+            if(!guild) return rej(new Error(`Unknown guild with ID '${guildID}'!`));
+
+            const guildMenus = this.database.get(guildID);
+            if(guildMenus?.length <= 0) return rej(new Error(`Unknown menus with Guild ID '${guildID}'!`));
+
+            const reactionRolesMenu = guildMenus.find(menu => menu.messageID === messageID);
+            if(!reactionRolesMenu) return rej(new Error(`Unknown menu with message ID '${messageID}'!`));
+
+            return res(reactionRolesMenu);
+        })
+    }
+
+    /**
+     * Method to get a list of menu roles by reaction for the server
+     * 
+     * @param {string} guildID Discord Guild ID
+     * 
+     * @returns {Promise<Array<GuildReactionsRoles>>} Returns the list of role menus by server response
+     */
+    public list(guildID: string): Promise<Array<GuildReactionsRoles>> {
+        return new Promise(async (res, rej) => {
+            const guild = this.client.guilds.cache.get(guildID);
+            if(!guild) return rej(new Error(`Unknown guild with ID '${guildID}'!`));
+
+            const guildMenus = this.database.get(guildID);
+            if(guildMenus?.length <= 0) return rej(new Error(`Unknown menus with Guild ID '${guildID}'!`));
+
+            return res(guildMenus);
         })
     }
 
@@ -229,12 +271,12 @@ export class ReactionsRoles extends Emitter {
 
             switch(mode) {
                 case EditMode.ADD: {
-                    if(reactionRoleData.find(data => data.roleID === options.role.id || data.raw === parsedEmoji.raw)) return rej(`The reaction/role '${options.emoji}/${options.role}' is already in the menu with the message ID '${messageID}'!`);
+                    if(reactionRoleData.find(data => data.roleID === options.role?.id || data.raw === parsedEmoji.raw)) return rej(`The reaction/role '${options.emoji}/${options.role}' is already in the menu with the message ID '${messageID}'!`);
 
                     const reactionRole: GuildReactionRole = {
                         id: parsedEmoji.id,
                         name: parsedEmoji.name,
-                        roleID: options.role.id,
+                        roleID: options.role?.id,
                         raw: parsedEmoji.raw,
 
                         added: Date.now(),
@@ -263,9 +305,9 @@ export class ReactionsRoles extends Emitter {
                 }
 
                 case EditMode.REMOVE: {
-                    if(!reactionRoleData.find(data => data.roleID === options.role.id && data.raw === parsedEmoji.raw)) return rej(`Reaction/role '${options.emoji}/${options.role}' not found in menu with message ID '${messageID}'!`);
+                    if(!reactionRoleData.find(data => data.roleID === options.role?.id && data.raw === parsedEmoji.raw)) return rej(`Reaction/role '${options.emoji}/${options.role}' not found in menu with message ID '${messageID}'!`);
 
-                    const editedReactionRoleData = reactionRoleData.filter(data => data.raw != parsedEmoji.raw && data.roleID != options.role.id);
+                    const editedReactionRoleData = reactionRoleData.filter(data => data.raw != parsedEmoji.raw && data.roleID != options.role?.id);
                     if(editedReactionRoleData.length <= 0) return this.remove(guildID, messageID);
 
                     reactionRolesMenu.data = editedReactionRoleData;

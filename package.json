@@ -1,6 +1,6 @@
 {
   "name": "discord-reactions-roles",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple and powerful module for adding a reaction role system to your discord.js project",
   "main": "index.js",
   "scripts": {
@@ -21,8 +21,9 @@
   },
   "homepage": "https://drr.js.org",
   "dependencies": {
+    "discord-emojis-parser": "^1.0.4",
     "discord-message-parser": "^1.0.1",
-    "discord.js": "^14.2.0",
+    "discord.js": "^14.3.0",
     "enmap": "^5.9.0"
   },
   "keywords": [
