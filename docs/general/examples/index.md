@@ -88,6 +88,26 @@ function registerCommands(): void {
         },
 
         {
+            name: "get",
+            description: "Allows you to get the role menu data by reaction",
+
+            options: [
+                {
+                    name: "message",
+                    description: "Message ID",
+
+                    type: ApplicationCommandOptionType.String,
+                    required: true
+                }
+            ]
+        },
+
+        {
+            name: "list",
+            description: "Allows you to get a list of role menus by reaction"
+        },
+
+        {
             name: "edit",
             description: "Allow you to edit exists reactions roles menus",
 
@@ -186,6 +206,30 @@ if(command === "create") {
     reactionsRoles.create(channel, options)
 
     .then(data => interaction.reply({ content: "Created!" }))
+    .catch((error: Error) => console.log(error));
+}
+```
+
+### Get command
+
+```js
+if(command === "get") {
+    const messageID = interaction.options.getString("message", true);
+
+    reactionsRoles.get(commandGuild.id, messageID)
+
+    .then(data => console.log(data))
+    .catch((error: Error) => console.log(error));
+}
+```
+
+### List command
+
+```js
+if(command === "list") {
+    reactionsRoles.list(commandGuild.id)
+
+    .then(data => console.log(data))
     .catch((error: Error) => console.log(error));
 }
 ```
