@@ -1,20 +1,17 @@
+// Import module requirements
 import Enmap from "enmap";
+import { Client, TextChannel } from "discord.js";
 
-import {
-  Client,
-  TextChannel
-} from "discord.js";
-
+// Import utils interface
 import { Utils } from "./Utils";
 
-import {
-  CreateReactionsRolesData,
-  EditReactionsRolesData,
-  GuildReactionsRoles
-} from "./Data";
+// Import data
+import { CreateReactionsRolesData, EditReactionsRolesData, GuildReactionsRoles } from "./Data";
 
+// Import options interfaces
 import Options from "./Options";
 
+// Import enums
 import { ModuleEvents } from "./Events";
 
 export type Awaitable<T> = T | PromiseLike<T>;
@@ -56,6 +53,25 @@ export declare class ReactionsRoles {
      * @returns Object with the data of the created menu
      */
     public create(channel: TextChannel, options: CreateReactionsRolesData): Promise<GuildReactionsRoles>;
+
+	/**
+     * Method for retrieving role menu data by reaction
+     * 
+     * @param guildID Discord Guild ID
+     * @param messageID Discord Guild Message ID
+     * 
+     * @returns Returns an object with role data by reaction
+     */
+	public get(guildID: string, messageID: string): Promise<GuildReactionsRoles>;
+
+	/**
+     * Method to get a list of menu roles by reaction for the server
+     * 
+     * @param guildID Discord Guild ID
+     * 
+     * @returns Returns the list of role menus by server response
+     */
+	public list(guildID: string): Promise<Arrau<GuildReactionsRoles>>;
 
 	/**
      * Method for changing the menu of roles by reaction (adding/removing reactions)

@@ -1,17 +1,15 @@
-import {
-    GatewayIntentBits,
-    GuildMember,
-    IntentsBitField,
-    Message,
-    Partials,
-    TextChannel
-} from "discord.js";
+// Import requirements
+import EmojiParser from "discord-emojis-parser";
+import { EmojiParser as EmojisParser } from "discord-message-parser";
+import { GatewayIntentBits, GuildMember, IntentsBitField, Message, Partials, TextChannel } from "discord.js";
 
-import { EmojiParser } from "discord-message-parser";
-
+// Import module main class
 import { ReactionsRoles } from "./ReactionsRoles";
 
+// Import options interface
 import Options from "../types/Options";
+
+// Import module interfaces
 import { ParsedEmoji } from "../types/Data";
 
 export class Utils {
@@ -103,7 +101,7 @@ export class Utils {
         const clientPartials = this.reactionsRoles.client.options.partials;
 
         for(const partial of defaultPartials) {
-            if(!clientPartials.includes(partial)) throw new Error(`Missing required client intent: '${Partials[partial]}'!`);
+            if(!clientPartials.includes(partial)) throw new Error(`Missing required client partial: '${Partials[partial]}'!`);
         }
     }
 
@@ -119,16 +117,31 @@ export class Utils {
         const guild = this.reactionsRoles.client.guilds.cache.get(guildID);
         if(!guild) throw new Error(`Unknown guild with id '${guildID}'!`);
 
-        const parseData = EmojiParser.parseEmojis(data);
+        let parsed: ParsedEmoji;
         const guildEmoji = guild.emojis.cache.find(e => `<${e.animated ? "a" : ""}:${e.name}:${e.id}>` === data);
 
-        const parsed: ParsedEmoji = {
-            id: guildEmoji?.id ?? null,
-            name: guildEmoji?.name ?? null,
-            raw: parseData.allEmojis[0]?.raw ?? null,
-            isValid: guildEmoji ? true : parseData.allEmojis[0]?.raw ? parseData.allEmojis[0].raw.includes("<") ? false : true : false,
-            unicode: parseData.allEmojis[0]?.unicode ?? null,
-            animated: parseData.allEmojis[0]?.animated ?? null
+        if(data.startsWith("<") && data.endsWith(">")) {
+            const parseData = EmojisParser.parseEmojis(data);
+
+            parsed = {
+                id: guildEmoji?.id ?? null,
+                name: guildEmoji?.name ?? null,
+                raw: parseData.allEmojis[0]?.raw ?? null,
+                isValid: guildEmoji ? true : parseData.allEmojis[0]?.raw ? parseData.allEmojis[0].raw.includes("<") ? false : true : false,
+                unicode: parseData.allEmojis[0]?.unicode ?? null,
+                animated: parseData.allEmojis[0]?.animated ?? null
+            }
+        }else{
+            const parseData = EmojiParser.parse(data);
+
+            parsed = {
+                id: guildEmoji?.id ?? null,
+                name: guildEmoji?.name ?? null,
+                raw: parseData[0]?.unicode ?? null,
+                isValid: parseData.length ? true : false,
+                unicode: parseData.length ? true : false,
+                animated: false
+            }
         }
 
         return parsed;

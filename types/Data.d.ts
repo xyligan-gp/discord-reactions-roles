@@ -1,7 +1,5 @@
-import {
-    EmbedData,
-    Role
-} from "discord.js";
+// Import requirement
+import { EmbedData, Role } from "discord.js";
 
 export interface GuildReactionsRoles {
     author: string;
@@ -26,6 +24,8 @@ export interface GuildReactionRole {
 }
 
 export interface CreateReactionsRolesData {
+    mentionEveryone?: boolean;
+
     role: Role;
     emoji: string;
     embed?: EmbedData;
@@ -39,8 +39,8 @@ export interface EditReactionsRolesData {
 }
 
 export interface ReactionsRolesMessages {
-    started: string;
-    ended: string;
+    started?: string;
+    ended?: string;
 }
 
 export interface ParsedEmoji {

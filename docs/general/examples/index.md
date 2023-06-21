@@ -44,6 +44,8 @@ const reactionsRoles = new ReactionsRoles(client);
 client.on("ready", async client => {
     return console.log(`${client.user.username} is ready!`);
 })
+
+client.login("YOUR_CLIENT_TOKEN_HERE");
 ```
 
 ## Client commands register
@@ -83,6 +85,26 @@ function registerCommands(): void {
                     required: true
                 }
             ]
+        },
+
+        {
+            name: "get",
+            description: "Allows you to get the role menu data by reaction",
+
+            options: [
+                {
+                    name: "message",
+                    description: "Message ID",
+
+                    type: ApplicationCommandOptionType.String,
+                    required: true
+                }
+            ]
+        },
+
+        {
+            name: "list",
+            description: "Allows you to get a list of role menus by reaction"
         },
 
         {
@@ -188,6 +210,30 @@ if(command === "create") {
 }
 ```
 
+### Get command
+
+```js
+if(command === "get") {
+    const messageID = interaction.options.getString("message", true);
+
+    reactionsRoles.get(commandGuild.id, messageID)
+
+    .then(data => console.log(data))
+    .catch((error: Error) => console.log(error));
+}
+```
+
+### List command
+
+```js
+if(command === "list") {
+    reactionsRoles.list(commandGuild.id)
+
+    .then(data => console.log(data))
+    .catch((error: Error) => console.log(error));
+}
+```
+
 ### Edit command
 
 ```js
@@ -250,7 +296,7 @@ reactionsRoles.on("ready", async client => {
 ### RoleAdded event
 
 ```js
-reactionsRoles.on("roleAdded", async (reaction, user, data) => {
+reactionsRoles.on("roleAdded", async (user, data) => {
     return console.log(`Added role with id '${data.roleID}' for user with id '${user?.id}'!`);
 })
 ```
@@ -258,7 +304,7 @@ reactionsRoles.on("roleAdded", async (reaction, user, data) => {
 ### RoleRemoved Event
 
 ```js
-reactionsRoles.on("roleRemoved", async (reaction, user, data) => {
+reactionsRoles.on("roleRemoved", async (user, data) => {
     return console.log(`Removed role with id '${data.roleID}' from user with id '${user?.id}'!`);
 })
 ```

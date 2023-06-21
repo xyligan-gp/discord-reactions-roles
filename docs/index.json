@@ -2,7 +2,7 @@
  "meta": {
   "generator": "0.11.1",
   "format": 22,
-  "date": 1660242388046
+  "date": 1687372787946
  },
  "custom": {
   "general": {
@@ -17,13 +17,13 @@
     "changelog": {
      "name": "Changelog",
      "type": "md",
-     "content": "# Module Changelog\r\n* ***Version 1.0.0***\r\n  * Release module\r\n* ***Version 1.0.2***\r\n  * JSDoc Fixes\r\n  * Fix methods: `<Utils>.parseEmoji`, `<Utils>.fetchPartials`, `<ReactionsRoles>.edit`",
+     "content": "# Module Changelog\r\n* ***Version 1.0.0***\r\n  * Release module\r\n* ***Version 1.0.1 - 1.0.2***\r\n  * JSDoc Fixes\r\n  * Changing data returned by `roleAdded` & `roleRemoved` events\r\n  * Fix methods: `<Utils>.parseEmoji`, `<Utils>.fetchPartials`, `<ReactionsRoles>.edit`\r\n  * Update module types\r\n  * Release module documentation [drr-website](https://drr.js.org)\r\n* ***Version 1.0.3 - 1.0.4***\r\n  * Fix `Unknown emoji with content` error (`<Utils>.parseEmoji` method)\r\n  * Added methods `<ReactionsRole>.get` & `<ReactionsRoles>.list`\r\n  * Update module types\r\n  * Update module examples in docs\r\n  * Update all dependencies\r\n* ***Version 1.0.5***\r\n  * Update versions of all package dependencies\r\n  * Minor edits to JSDoc\r\n  * Fix some bugs",
      "path": "docs/general/changelog.md"
     },
     "index": {
      "name": "Example",
      "type": "md",
-     "content": "# A small example of writing a bot using a module\r\n\r\n## Client and module initialization\r\n\r\n```js\r\nimport {\r\n    ReactionsRoles,\r\n    EditMode\r\n} from \"discord-reactions-roles\";\r\n\r\nimport {\r\n    CreateReactionsRolesData,\r\n    EditReactionsRolesData\r\n} from \"discord-reactions-roles/types/Data\";\r\n\r\nimport {\r\n    ApplicationCommandOptionType,\r\n    ChannelType,\r\n    Client,\r\n    GatewayIntentBits,\r\n    Guild,\r\n    Partials,\r\n    Role,\r\n    TextChannel\r\n} from \"discord.js\";\r\n\r\nconst client = new Client({\r\n    intents: [\r\n        GatewayIntentBits.Guilds,\r\n        GatewayIntentBits.GuildMembers,\r\n        GatewayIntentBits.GuildMessages,\r\n        GatewayIntentBits.GuildMessageReactions\r\n    ],\r\n\r\n    partials: [\r\n        Partials.Message,\r\n        Partials.Reaction,\r\n        Partials.User\r\n    ]\r\n})\r\n\r\nconst reactionsRoles = new ReactionsRoles(client);\r\n\r\nclient.on(\"ready\", async client => {\r\n    return console.log(`${client.user.username} is ready!`);\r\n})\r\n```\r\n\r\n## Client commands register\r\nUse the following example function to register commands when your bot's `ready` event is triggered!\r\n\r\n```js\r\nfunction registerCommands(): void {\r\n    client.application?.commands.set([\r\n        {\r\n            name: \"create\",\r\n            description: \"Allows you to create new reactions roles menu\",\r\n\r\n            options: [\r\n                {\r\n                    name: \"channel\",\r\n                    description: \"Guild Channel\",\r\n\r\n                    type: ApplicationCommandOptionType.Channel,\r\n                    channelTypes: [ChannelType.GuildNews, ChannelType.GuildText],\r\n\r\n                    required: true\r\n                },\r\n\r\n                {\r\n                    name: \"role\",\r\n                    description: \"Guild Role\",\r\n\r\n                    type: ApplicationCommandOptionType.Role,\r\n                    required: true\r\n                },\r\n\r\n                {\r\n                    name: \"emoji\",\r\n                    description: \"Role Emoji\",\r\n\r\n                    type: ApplicationCommandOptionType.String,\r\n                    required: true\r\n                }\r\n            ]\r\n        },\r\n\r\n        {\r\n            name: \"edit\",\r\n            description: \"Allow you to edit exists reactions roles menus\",\r\n\r\n            options: [\r\n                {\r\n                    name: \"mode\",\r\n                    description: \"Editing mode\",\r\n\r\n                    type: ApplicationCommandOptionType.String,\r\n                    required: true,\r\n\r\n                    choices: [\r\n                        {\r\n                            name: \"Add new data\",\r\n                            value: EditMode.ADD\r\n                        },\r\n\r\n                        {\r\n                            name: \"Remove old data\",\r\n                            value: EditMode.REMOVE\r\n                        }\r\n                    ]\r\n                },\r\n\r\n                {\r\n                    name: \"id\",\r\n                    description: \"Message ID\",\r\n\r\n                    type: ApplicationCommandOptionType.String,\r\n                    required: true\r\n                },\r\n\r\n                {\r\n                    name: \"role\",\r\n                    description: \"Guild Role\",\r\n\r\n                    type: ApplicationCommandOptionType.Role,\r\n                    required: true\r\n                },\r\n\r\n                {\r\n                    name: \"emoji\",\r\n                    description: \"Role Emoji\",\r\n\r\n                    type: ApplicationCommandOptionType.String,\r\n                    required: true\r\n                }\r\n            ]\r\n        },\r\n\r\n        {\r\n            name: \"remove\",\r\n            description: \"Allows you to remove reactions roles menus from message id\",\r\n\r\n            options: [\r\n                {\r\n                    name: \"id\",\r\n                    description: \"Message ID\",\r\n\r\n                    type: ApplicationCommandOptionType.String,\r\n                    required: true\r\n                }\r\n            ]\r\n        }\r\n    ])\r\n}\r\n```\r\n\r\n## Client commands handling\r\n\r\n```js\r\nclient.on(\"interactionCreate\", async interaction => {\r\n    if(!interaction.inGuild()) return;\r\n    if(!interaction.isChatInputCommand()) return;\r\n\r\n    const command = interaction.commandName;\r\n    const commandGuild = interaction.guild as Guild;\r\n})\r\n```\r\n\r\n## Client commands code\r\n\r\n### Create command\r\n\r\n```js\r\nif(command === \"create\") {\r\n    const channel = interaction.options.getChannel(\"channel\", true) as TextChannel;\r\n    const role = interaction.options.getRole(\"role\", true) as Role;\r\n    const emoji = interaction.options.getString(\"emoji\", true);\r\n        \r\n    const options: CreateReactionsRolesData = {\r\n        role: role,\r\n        emoji: emoji\r\n    }\r\n        \r\n    reactionsRoles.create(channel, options)\r\n\r\n    .then(data => interaction.reply({ content: \"Created!\" }))\r\n    .catch((error: Error) => console.log(error));\r\n}\r\n```\r\n\r\n### Edit command\r\n\r\n```js\r\nif(command === \"edit\") {\r\n    const mode = interaction.options.getString(\"mode\", true) as EditMode;\r\n    const id = interaction.options.getString(\"id\", true);\r\n    const role = interaction.options.getRole(\"role\", true) as Role;\r\n    const emoji = interaction.options.getString(\"emoji\", true);\r\n\r\n    const options: EditReactionsRolesData = {\r\n        role: role,\r\n        emoji: emoji\r\n    }\r\n\r\n    switch(mode) {\r\n        case EditMode.ADD: {\r\n            reactionsRoles.edit(commandGuild.id, id, EditMode.ADD, options)\r\n\r\n            .then(data => interaction.reply({ content: \"Edited!\" }))\r\n            .catch((error: Error) => console.log(error));\r\n\r\n            break;\r\n        }\r\n\r\n        case EditMode.REMOVE: {\r\n            reactionsRoles.edit(commandGuild.id, id, EditMode.REMOVE, options)\r\n\r\n            .then(data => interaction.reply({ content: \"Edited!\" }))\r\n            .catch((error: Error) => console.log(error));\r\n\r\n            break;\r\n        }\r\n    }\r\n}\r\n```\r\n\r\n### Remove command\r\n\r\n```js\r\nif(command === \"remove\") {\r\n    const id = interaction.options.getString(\"id\", true);\r\n\r\n    reactionsRoles.remove(commandGuild.id, id)\r\n\r\n    .then(data => interaction.reply({ content: \"Removed!\" }))\r\n    .catch((error: Error) => console.log(error));\r\n}\r\n```\r\n\r\n## Module events handling\r\n\r\n### Ready event\r\n\r\n```js\r\nreactionsRoles.on(\"ready\", async client => {\r\n    return console.log(`ReactionsRoles [${reactionsRoles.version}] by ${reactionsRoles.author} is ready!`);\r\n})\r\n```\r\n\r\n### RoleAdded event\r\n\r\n```js\r\nreactionsRoles.on(\"roleAdded\", async (reaction, user, data) => {\r\n    return console.log(`Added role with id '${data.roleID}' for user with id '${user?.id}'!`);\r\n})\r\n```\r\n\r\n### RoleRemoved Event\r\n\r\n```js\r\nreactionsRoles.on(\"roleRemoved\", async (reaction, user, data) => {\r\n    return console.log(`Removed role with id '${data.roleID}' from user with id '${user?.id}'!`);\r\n})\r\n```",
+     "content": "# A small example of writing a bot using a module\r\n\r\n## Client and module initialization\r\n\r\n```js\r\nimport {\r\n    ReactionsRoles,\r\n    EditMode\r\n} from \"discord-reactions-roles\";\r\n\r\nimport {\r\n    CreateReactionsRolesData,\r\n    EditReactionsRolesData\r\n} from \"discord-reactions-roles/types/Data\";\r\n\r\nimport {\r\n    ApplicationCommandOptionType,\r\n    ChannelType,\r\n    Client,\r\n    GatewayIntentBits,\r\n    Guild,\r\n    Partials,\r\n    Role,\r\n    TextChannel\r\n} from \"discord.js\";\r\n\r\nconst client = new Client({\r\n    intents: [\r\n        GatewayIntentBits.Guilds,\r\n        GatewayIntentBits.GuildMembers,\r\n        GatewayIntentBits.GuildMessages,\r\n        GatewayIntentBits.GuildMessageReactions\r\n    ],\r\n\r\n    partials: [\r\n        Partials.Message,\r\n        Partials.Reaction,\r\n        Partials.User\r\n    ]\r\n})\r\n\r\nconst reactionsRoles = new ReactionsRoles(client);\r\n\r\nclient.on(\"ready\", async client => {\r\n    return console.log(`${client.user.username} is ready!`);\r\n})\r\n\r\nclient.login(\"YOUR_CLIENT_TOKEN_HERE\");\r\n```\r\n\r\n## Client commands register\r\nUse the following example function to register commands when your bot's `ready` event is triggered!\r\n\r\n```js\r\nfunction registerCommands(): void {\r\n    client.application?.commands.set([\r\n        {\r\n            name: \"create\",\r\n            description: \"Allows you to create new reactions roles menu\",\r\n\r\n            options: [\r\n                {\r\n                    name: \"channel\",\r\n                    description: \"Guild Channel\",\r\n\r\n                    type: ApplicationCommandOptionType.Channel,\r\n                    channelTypes: [ChannelType.GuildNews, ChannelType.GuildText],\r\n\r\n                    required: true\r\n                },\r\n\r\n                {\r\n                    name: \"role\",\r\n                    description: \"Guild Role\",\r\n\r\n                    type: ApplicationCommandOptionType.Role,\r\n                    required: true\r\n                },\r\n\r\n                {\r\n                    name: \"emoji\",\r\n                    description: \"Role Emoji\",\r\n\r\n                    type: ApplicationCommandOptionType.String,\r\n                    required: true\r\n                }\r\n            ]\r\n        },\r\n\r\n        {\r\n            name: \"get\",\r\n            description: \"Allows you to get the role menu data by reaction\",\r\n\r\n            options: [\r\n                {\r\n                    name: \"message\",\r\n                    description: \"Message ID\",\r\n\r\n                    type: ApplicationCommandOptionType.String,\r\n                    required: true\r\n                }\r\n            ]\r\n        },\r\n\r\n        {\r\n            name: \"list\",\r\n            description: \"Allows you to get a list of role menus by reaction\"\r\n        },\r\n\r\n        {\r\n            name: \"edit\",\r\n            description: \"Allow you to edit exists reactions roles menus\",\r\n\r\n            options: [\r\n                {\r\n                    name: \"mode\",\r\n                    description: \"Editing mode\",\r\n\r\n                    type: ApplicationCommandOptionType.String,\r\n                    required: true,\r\n\r\n                    choices: [\r\n                        {\r\n                            name: \"Add new data\",\r\n                            value: EditMode.ADD\r\n                        },\r\n\r\n                        {\r\n                            name: \"Remove old data\",\r\n                            value: EditMode.REMOVE\r\n                        }\r\n                    ]\r\n                },\r\n\r\n                {\r\n                    name: \"id\",\r\n                    description: \"Message ID\",\r\n\r\n                    type: ApplicationCommandOptionType.String,\r\n                    required: true\r\n                },\r\n\r\n                {\r\n                    name: \"role\",\r\n                    description: \"Guild Role\",\r\n\r\n                    type: ApplicationCommandOptionType.Role,\r\n                    required: true\r\n                },\r\n\r\n                {\r\n                    name: \"emoji\",\r\n                    description: \"Role Emoji\",\r\n\r\n                    type: ApplicationCommandOptionType.String,\r\n                    required: true\r\n                }\r\n            ]\r\n        },\r\n\r\n        {\r\n            name: \"remove\",\r\n            description: \"Allows you to remove reactions roles menus from message id\",\r\n\r\n            options: [\r\n                {\r\n                    name: \"id\",\r\n                    description: \"Message ID\",\r\n\r\n                    type: ApplicationCommandOptionType.String,\r\n                    required: true\r\n                }\r\n            ]\r\n        }\r\n    ])\r\n}\r\n```\r\n\r\n## Client commands handling\r\n\r\n```js\r\nclient.on(\"interactionCreate\", async interaction => {\r\n    if(!interaction.inGuild()) return;\r\n    if(!interaction.isChatInputCommand()) return;\r\n\r\n    const command = interaction.commandName;\r\n    const commandGuild = interaction.guild as Guild;\r\n})\r\n```\r\n\r\n## Client commands code\r\n\r\n### Create command\r\n\r\n```js\r\nif(command === \"create\") {\r\n    const channel = interaction.options.getChannel(\"channel\", true) as TextChannel;\r\n    const role = interaction.options.getRole(\"role\", true) as Role;\r\n    const emoji = interaction.options.getString(\"emoji\", true);\r\n        \r\n    const options: CreateReactionsRolesData = {\r\n        role: role,\r\n        emoji: emoji\r\n    }\r\n        \r\n    reactionsRoles.create(channel, options)\r\n\r\n    .then(data => interaction.reply({ content: \"Created!\" }))\r\n    .catch((error: Error) => console.log(error));\r\n}\r\n```\r\n\r\n### Get command\r\n\r\n```js\r\nif(command === \"get\") {\r\n    const messageID = interaction.options.getString(\"message\", true);\r\n\r\n    reactionsRoles.get(commandGuild.id, messageID)\r\n\r\n    .then(data => console.log(data))\r\n    .catch((error: Error) => console.log(error));\r\n}\r\n```\r\n\r\n### List command\r\n\r\n```js\r\nif(command === \"list\") {\r\n    reactionsRoles.list(commandGuild.id)\r\n\r\n    .then(data => console.log(data))\r\n    .catch((error: Error) => console.log(error));\r\n}\r\n```\r\n\r\n### Edit command\r\n\r\n```js\r\nif(command === \"edit\") {\r\n    const mode = interaction.options.getString(\"mode\", true) as EditMode;\r\n    const id = interaction.options.getString(\"id\", true);\r\n    const role = interaction.options.getRole(\"role\", true) as Role;\r\n    const emoji = interaction.options.getString(\"emoji\", true);\r\n\r\n    const options: EditReactionsRolesData = {\r\n        role: role,\r\n        emoji: emoji\r\n    }\r\n\r\n    switch(mode) {\r\n        case EditMode.ADD: {\r\n            reactionsRoles.edit(commandGuild.id, id, EditMode.ADD, options)\r\n\r\n            .then(data => interaction.reply({ content: \"Edited!\" }))\r\n            .catch((error: Error) => console.log(error));\r\n\r\n            break;\r\n        }\r\n\r\n        case EditMode.REMOVE: {\r\n            reactionsRoles.edit(commandGuild.id, id, EditMode.REMOVE, options)\r\n\r\n            .then(data => interaction.reply({ content: \"Edited!\" }))\r\n            .catch((error: Error) => console.log(error));\r\n\r\n            break;\r\n        }\r\n    }\r\n}\r\n```\r\n\r\n### Remove command\r\n\r\n```js\r\nif(command === \"remove\") {\r\n    const id = interaction.options.getString(\"id\", true);\r\n\r\n    reactionsRoles.remove(commandGuild.id, id)\r\n\r\n    .then(data => interaction.reply({ content: \"Removed!\" }))\r\n    .catch((error: Error) => console.log(error));\r\n}\r\n```\r\n\r\n## Module events handling\r\n\r\n### Ready event\r\n\r\n```js\r\nreactionsRoles.on(\"ready\", async client => {\r\n    return console.log(`ReactionsRoles [${reactionsRoles.version}] by ${reactionsRoles.author} is ready!`);\r\n})\r\n```\r\n\r\n### RoleAdded event\r\n\r\n```js\r\nreactionsRoles.on(\"roleAdded\", async (user, data) => {\r\n    return console.log(`Added role with id '${data.roleID}' for user with id '${user?.id}'!`);\r\n})\r\n```\r\n\r\n### RoleRemoved Event\r\n\r\n```js\r\nreactionsRoles.on(\"roleRemoved\", async (user, data) => {\r\n    return console.log(`Removed role with id '${data.roleID}' from user with id '${user?.id}'!`);\r\n})\r\n```",
      "path": "docs/general/examples/index.md"
     }
    }
@@ -73,7 +73,7 @@
       "description": "EventEmitter Class"
      },
      "meta": {
-      "line": 15,
+      "line": 18,
       "file": "Emitter.ts",
       "path": "src"
      }
@@ -116,7 +116,7 @@
       "description": "EventEmitter Class"
      },
      "meta": {
-      "line": 27,
+      "line": 30,
       "file": "Emitter.ts",
       "path": "src"
      }
@@ -160,14 +160,14 @@
       "description": "Event emit status"
      },
      "meta": {
-      "line": 39,
+      "line": 42,
       "file": "Emitter.ts",
       "path": "src"
      }
     }
    ],
    "meta": {
-    "line": 6,
+    "line": 9,
     "file": "Emitter.ts",
     "path": "src"
    }
@@ -222,7 +222,7 @@
       ]
      ],
      "meta": {
-      "line": 72,
+      "line": 62,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -238,7 +238,7 @@
       ]
      ],
      "meta": {
-      "line": 79,
+      "line": 69,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -254,7 +254,7 @@
       ]
      ],
      "meta": {
-      "line": 86,
+      "line": 76,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -270,7 +270,7 @@
       ]
      ],
      "meta": {
-      "line": 93,
+      "line": 83,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -286,7 +286,7 @@
       ]
      ],
      "meta": {
-      "line": 100,
+      "line": 90,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -302,7 +302,7 @@
       ]
      ],
      "meta": {
-      "line": 107,
+      "line": 97,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -331,7 +331,7 @@
       ]
      ],
      "meta": {
-      "line": 114,
+      "line": 104,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -347,7 +347,7 @@
       ]
      ],
      "meta": {
-      "line": 121,
+      "line": 111,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -397,7 +397,96 @@
       "description": "Object with the data of the created menu"
      },
      "meta": {
-      "line": 131,
+      "line": 121,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "get",
+     "description": "Method for retrieving role menu data by reaction",
+     "params": [
+      {
+       "name": "guildID",
+       "description": "Discord Guild ID",
+       "type": [
+        [
+         [
+          "string"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "messageID",
+       "description": "Discord Guild Message ID",
+       "type": [
+        [
+         [
+          "string"
+         ]
+        ]
+       ]
+      }
+     ],
+     "returns": {
+      "types": [
+       [
+        [
+         "Promise",
+         "<"
+        ],
+        [
+         "GuildReactionsRoles",
+         ">"
+        ]
+       ]
+      ],
+      "description": "Returns an object with role data by reaction"
+     },
+     "meta": {
+      "line": 195,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "list",
+     "description": "Method to get a list of menu roles by reaction for the server",
+     "params": [
+      {
+       "name": "guildID",
+       "description": "Discord Guild ID",
+       "type": [
+        [
+         [
+          "string"
+         ]
+        ]
+       ]
+      }
+     ],
+     "returns": {
+      "types": [
+       [
+        [
+         "Promise",
+         "<"
+        ],
+        [
+         "Array",
+         "<"
+        ],
+        [
+         "GuildReactionsRoles",
+         ">>"
+        ]
+       ]
+      ],
+      "description": "Returns the list of role menus by server response"
+     },
+     "meta": {
+      "line": 218,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -467,7 +556,7 @@
       "description": "Modified menu data object"
      },
      "meta": {
-      "line": 203,
+      "line": 237,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -515,7 +604,7 @@
       "description": "Deletion state"
      },
      "meta": {
-      "line": 305,
+      "line": 345,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -539,7 +628,7 @@
       }
      ],
      "meta": {
-      "line": 361,
+      "line": 401,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -549,7 +638,7 @@
      "description": "Method for module database initialization",
      "access": "private",
      "meta": {
-      "line": 366,
+      "line": 379,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -559,7 +648,7 @@
      "description": "Method for starting client event tracking",
      "access": "private",
      "meta": {
-      "line": 401,
+      "line": 441,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -604,7 +693,7 @@
       "description": "EventEmitter Class"
      },
      "meta": {
-      "line": 15,
+      "line": 18,
       "file": "Emitter.ts",
       "path": "src"
      }
@@ -649,7 +738,7 @@
       "description": "EventEmitter Class"
      },
      "meta": {
-      "line": 27,
+      "line": 30,
       "file": "Emitter.ts",
       "path": "src"
      }
@@ -695,7 +784,7 @@
       "description": "Event emit status"
      },
      "meta": {
-      "line": 39,
+      "line": 42,
       "file": "Emitter.ts",
       "path": "src"
      }
@@ -719,7 +808,7 @@
       }
      ],
      "meta": {
-      "line": 483,
+      "line": 523,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -729,27 +818,16 @@
      "description": "Emitted when the user has received a role for clicking on a reaction",
      "params": [
       {
-       "name": "data",
-       "description": "Reaction Role Data",
+       "name": "user",
+       "description": "Reaction User Data",
        "type": [
         [
          [
-          "GuildReactionRole"
+          "User"
          ]
         ]
        ]
-      }
-     ],
-     "meta": {
-      "line": 491,
-      "file": "ReactionsRoles.ts",
-      "path": "src"
-     }
-    },
-    {
-     "name": "roleRemoved",
-     "description": "Emitted when a user has lost a role for deleting a previously added reaction",
-     "params": [
+      },
       {
        "name": "data",
        "description": "Reaction Role Data",
@@ -763,14 +841,47 @@
       }
      ],
      "meta": {
-      "line": 499,
+      "line": 531,
+      "file": "ReactionsRoles.ts",
+      "path": "src"
+     }
+    },
+    {
+     "name": "roleRemoved",
+     "description": "Emitted when a user has lost a role for deleting a previously added reaction",
+     "params": [
+      {
+       "name": "user",
+       "description": "Reaction User Data",
+       "type": [
+        [
+         [
+          "User"
+         ]
+        ]
+       ]
+      },
+      {
+       "name": "data",
+       "description": "Reaction Role Data",
+       "type": [
+        [
+         [
+          "GuildReactionRole"
+         ]
+        ]
+       ]
+      }
+     ],
+     "meta": {
+      "line": 540,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
     }
    ],
    "meta": {
-    "line": 33,
+    "line": 23,
     "file": "ReactionsRoles.ts",
     "path": "src"
    }
@@ -806,7 +917,7 @@
       ]
      ],
      "meta": {
-      "line": 26,
+      "line": 24,
       "file": "Utils.ts",
       "path": "src"
      }
@@ -840,7 +951,7 @@
       "description": "Valid module configuration"
      },
      "meta": {
-      "line": 35,
+      "line": 33,
       "file": "Utils.ts",
       "path": "src"
      }
@@ -850,7 +961,7 @@
      "description": "Method for checking client intents",
      "access": "private",
      "meta": {
-      "line": 71,
+      "line": 69,
       "file": "Utils.ts",
       "path": "src"
      }
@@ -860,7 +971,7 @@
      "description": "Method for checking client partials",
      "access": "private",
      "meta": {
-      "line": 91,
+      "line": 89,
       "file": "Utils.ts",
       "path": "src"
      }
@@ -903,7 +1014,7 @@
       "description": "Content parsing data"
      },
      "meta": {
-      "line": 110,
+      "line": 108,
       "file": "Utils.ts",
       "path": "src"
      }
@@ -951,7 +1062,7 @@
       "description": "Guild Text Channel"
      },
      "meta": {
-      "line": 137,
+      "line": 150,
       "file": "Utils.ts",
       "path": "src"
      }
@@ -1010,7 +1121,7 @@
       "description": "Discord Guild Message"
      },
      "meta": {
-      "line": 163,
+      "line": 176,
       "file": "Utils.ts",
       "path": "src"
      }
@@ -1058,14 +1169,14 @@
       "description": "Guild Member Data"
      },
      "meta": {
-      "line": 192,
+      "line": 205,
       "file": "Utils.ts",
       "path": "src"
      }
     }
    ],
    "meta": {
-    "line": 20,
+    "line": 18,
     "file": "Utils.ts",
     "path": "src"
    }
@@ -1241,7 +1352,7 @@
     }
    ],
    "meta": {
-    "line": 507,
+    "line": 549,
     "file": "ReactionsRoles.ts",
     "path": "src"
    }
@@ -1341,7 +1452,7 @@
     }
    ],
    "meta": {
-    "line": 519,
+    "line": 561,
     "file": "ReactionsRoles.ts",
     "path": "src"
    }
@@ -1435,7 +1546,7 @@
     }
    ],
    "meta": {
-    "line": 533,
+    "line": 575,
     "file": "ReactionsRoles.ts",
     "path": "src"
    }
@@ -1451,6 +1562,19 @@
     ]
    ],
    "props": [
+    {
+     "name": "mentionEveryone",
+     "description": "Mentione all users",
+     "optional": true,
+     "default": true,
+     "type": [
+      [
+       [
+        "boolean"
+       ]
+      ]
+     ]
+    },
     {
      "name": "role",
      "description": "Reactin Role Data",
@@ -1511,7 +1635,7 @@
     }
    ],
    "meta": {
-    "line": 546,
+    "line": 588,
     "file": "ReactionsRoles.ts",
     "path": "src"
    }
@@ -1551,7 +1675,7 @@
     }
    ],
    "meta": {
-    "line": 558,
+    "line": 601,
     "file": "ReactionsRoles.ts",
     "path": "src"
    }
@@ -1570,6 +1694,7 @@
     {
      "name": "started",
      "description": "Reactions Roles Menu Start Message",
+     "optional": true,
      "type": [
       [
        [
@@ -1581,6 +1706,7 @@
     {
      "name": "ended",
      "description": "Reactions Roles Menu End Message",
+     "optional": true,
      "type": [
       [
        [
@@ -1591,7 +1717,7 @@
     }
    ],
    "meta": {
-    "line": 567,
+    "line": 610,
     "file": "ReactionsRoles.ts",
     "path": "src"
    }
@@ -1675,7 +1801,7 @@
     }
    ],
    "meta": {
-    "line": 576,
+    "line": 619,
     "file": "ReactionsRoles.ts",
     "path": "src"
    }

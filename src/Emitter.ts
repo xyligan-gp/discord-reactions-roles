@@ -1,7 +1,10 @@
+// Import emitter requirements
 import EventEmitter from "events";
-const emitter = new EventEmitter();
 
+// Import emitter events enum
 import { Events } from "./Enums";
+
+const emitter = new EventEmitter();
 
 /**
  * Class that controls Module Emitter
