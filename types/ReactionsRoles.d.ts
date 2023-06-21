@@ -1,20 +1,17 @@
+// Import module requirements
 import Enmap from "enmap";
+import { Client, TextChannel } from "discord.js";
 
-import {
-  Client,
-  TextChannel
-} from "discord.js";
-
+// Import utils interface
 import { Utils } from "./Utils";
 
-import {
-  CreateReactionsRolesData,
-  EditReactionsRolesData,
-  GuildReactionsRoles
-} from "./Data";
+// Import data
+import { CreateReactionsRolesData, EditReactionsRolesData, GuildReactionsRoles } from "./Data";
 
+// Import options interfaces
 import Options from "./Options";
 
+// Import enums
 import { ModuleEvents } from "./Events";
 
 export type Awaitable<T> = T | PromiseLike<T>;

@@ -1,13 +1,13 @@
-import {
-    GuildEmoji,
-    GuildMember,
-    Message,
-    TextChannel
-} from "discord.js";
+// Import requirements
+import { GuildEmoji, GuildMember, Message, TextChannel } from "discord.js";
 
+// Import main class interface
 import { ReactionsRoles } from "./ReactionsRoles";
 
+// Import options interface
 import Options from "./Options";
+
+// Import data
 import { ParsedEmoji } from "./Data";
 
 export declare class Utils {

@@ -1,34 +1,24 @@
+// Import module requirements
 import Enmap from "enmap";
+import { Client, EmbedBuilder, Message, TextChannel } from "discord.js";
 
-import {
-    Client,
-    EmbedBuilder,
-    EmbedData,
-    Message,
-    MessageReaction,
-    Role,
-    TextChannel,
-    User
-} from "discord.js";
-
+// Import module utils
 import { Utils } from "./Utils";
 
+// Import module emitter
 import { Emitter } from "./Emitter";
 
+// Import module enums
+import { EditMode, Events } from "./Enums";
+
+// Import options interface
 import Options from "../types/Options";
 
-import {
-    CreateReactionsRolesData,
-    EditReactionsRolesData,
-    GuildReactionRole,
-    GuildReactionsRoles,
-    ReactionsRolesMessages
-} from "../types/Data";
+// Import module interfaces
+import { CreateReactionsRolesData, EditReactionsRolesData, GuildReactionRole, GuildReactionsRoles, ReactionsRolesMessages } from "../types/Data";
 
-import {
-    EditMode,
-    Events
-} from "./Enums";
+// Import package information
+import { author, homepage, version } from "../package.json";
 
 /**
  * Class that controls Reaction Roles System
@@ -74,21 +64,21 @@ export class ReactionsRoles extends Emitter {
          * 
          * @type {string}
          */
-        this.author = require('../package.json').author;
+        this.author = author;
 
         /**
          * Module Website URL
          * 
          * @type {string}
          */
-        this.website = require('../package.json').homepage;
+        this.website = homepage;
  
         /**
          * Module Version
          * 
          * @type {string}
          */
-        this.version = require('../package.json').version;
+        this.version = version
         
         /**
          * Module Ready Status
@@ -139,7 +129,9 @@ export class ReactionsRoles extends Emitter {
     public create(channel: TextChannel, options: CreateReactionsRolesData): Promise<GuildReactionsRoles> {
         return new Promise(async (res, rej) => {
             const parsedEmoji = this.utils.parseEmoji(channel.guild.id, options.emoji);
+            
             if(!parsedEmoji.isValid) return rej(new Error(`Unknown emoji with content '${options.emoji}'!`));
+            if(options.role?.managed) return rej(new Error(`Role '${options.role?.name}' is controlled by an external application!`));
 
             const defaultMessages: ReactionsRolesMessages = {
                 started: "A new role giveaway for reactions has been launched!",
@@ -158,7 +150,7 @@ export class ReactionsRoles extends Emitter {
 
             embed.data.description += `\n\n${parsedEmoji.raw} - ${options.role}`;
 
-            const message = await channel.send({ embeds: [embed] });
+            const message = await channel.send({ content: options.mentionEveryone ? "@everyone" : "", embeds: [embed] });
 
             await message.react(parsedEmoji.raw);
 
@@ -271,7 +263,8 @@ export class ReactionsRoles extends Emitter {
 
             switch(mode) {
                 case EditMode.ADD: {
-                    if(reactionRoleData.find(data => data.roleID === options.role?.id || data.raw === parsedEmoji.raw)) return rej(`The reaction/role '${options.emoji}/${options.role}' is already in the menu with the message ID '${messageID}'!`);
+                    if(options.role?.managed) return rej(new Error(`Role '${options.role?.name}' is controlled by an external application!`));
+                    if(reactionRoleData.find(data => data.roleID === options.role?.id || data.raw === parsedEmoji.raw)) return rej(new Error(`The reaction/role '${options.emoji}/${options.role}' is already in the menu with the message ID '${messageID}'!`));
 
                     const reactionRole: GuildReactionRole = {
                         id: parsedEmoji.id,
@@ -305,10 +298,15 @@ export class ReactionsRoles extends Emitter {
                 }
 
                 case EditMode.REMOVE: {
-                    if(!reactionRoleData.find(data => data.roleID === options.role?.id && data.raw === parsedEmoji.raw)) return rej(`Reaction/role '${options.emoji}/${options.role}' not found in menu with message ID '${messageID}'!`);
+                    if(!reactionRoleData.find(data => data.roleID === options.role?.id && data.raw === parsedEmoji.raw)) return rej(new Error(`Reaction/role '${options.emoji}/${options.role}' not found in menu with message ID '${messageID}'!`));
 
                     const editedReactionRoleData = reactionRoleData.filter(data => data.raw != parsedEmoji.raw && data.roleID != options.role?.id);
-                    if(editedReactionRoleData.length <= 0) return this.remove(guildID, messageID);
+                    
+                    if(editedReactionRoleData.length <= 0) {
+                        this.remove(guildID, messageID);
+
+                        return res(reactionRolesMenu);
+                    }
 
                     reactionRolesMenu.data = editedReactionRoleData;
 
@@ -592,6 +590,7 @@ export class ReactionsRoles extends Emitter {
  * 
  * @typedef {object} CreateReactionsRolesData
  * 
+ * @prop {boolean} [mentionEveryone=true] Mentione all users
  * @prop {Role} role Reactin Role Data
  * @prop {string} emoji Emoji Content
  * @prop {EmbedData} [embed] Discord Embed Options
@@ -613,8 +612,8 @@ export class ReactionsRoles extends Emitter {
  * 
  * @typedef {object} ReactionsRolesMessages
  * 
- * @prop {string} started Reactions Roles Menu Start Message
- * @prop {string} ended Reactions Roles Menu End Message
+ * @prop {string} [started] Reactions Roles Menu Start Message
+ * @prop {string} [ended] Reactions Roles Menu End Message
  */
 
 /**

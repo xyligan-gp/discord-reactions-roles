@@ -1,7 +1,10 @@
+// Import requirements
 import { User } from "discord.js";
 
+// Import main class interface
 import { ReactionsRoles } from "./ReactionsRoles";
 
+// Import data
 import { GuildReactionRole } from "./Data";
 
 export interface ModuleEvents {

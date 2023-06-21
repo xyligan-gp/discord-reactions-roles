@@ -2,7 +2,7 @@
  "meta": {
   "generator": "0.11.1",
   "format": 22,
-  "date": 1661877883164
+  "date": 1687372787946
  },
  "custom": {
   "general": {
@@ -17,7 +17,7 @@
     "changelog": {
      "name": "Changelog",
      "type": "md",
-     "content": "# Module Changelog\r\n* ***Version 1.0.0***\r\n  * Release module\r\n* ***Version 1.0.1 - 1.0.2***\r\n  * JSDoc Fixes\r\n  * Changing data returned by `roleAdded` & `roleRemoved` events\r\n  * Fix methods: `<Utils>.parseEmoji`, `<Utils>.fetchPartials`, `<ReactionsRoles>.edit`\r\n  * Update module types\r\n  * Release module documentation [drr-website](https://drr.js.org)\r\n* ***Version 1.0.3***\r\n  * Fix `Unknown emoji with content` error (`<Utils>.parseEmoji` method)\r\n  * Added methods `<ReactionsRole>.get` & `<ReactionsRoles>.list`\r\n  * Update module types\r\n  * Update module examples in docs\r\n  * Update all dependencies",
+     "content": "# Module Changelog\r\n* ***Version 1.0.0***\r\n  * Release module\r\n* ***Version 1.0.1 - 1.0.2***\r\n  * JSDoc Fixes\r\n  * Changing data returned by `roleAdded` & `roleRemoved` events\r\n  * Fix methods: `<Utils>.parseEmoji`, `<Utils>.fetchPartials`, `<ReactionsRoles>.edit`\r\n  * Update module types\r\n  * Release module documentation [drr-website](https://drr.js.org)\r\n* ***Version 1.0.3 - 1.0.4***\r\n  * Fix `Unknown emoji with content` error (`<Utils>.parseEmoji` method)\r\n  * Added methods `<ReactionsRole>.get` & `<ReactionsRoles>.list`\r\n  * Update module types\r\n  * Update module examples in docs\r\n  * Update all dependencies\r\n* ***Version 1.0.5***\r\n  * Update versions of all package dependencies\r\n  * Minor edits to JSDoc\r\n  * Fix some bugs",
      "path": "docs/general/changelog.md"
     },
     "index": {
@@ -73,7 +73,7 @@
       "description": "EventEmitter Class"
      },
      "meta": {
-      "line": 15,
+      "line": 18,
       "file": "Emitter.ts",
       "path": "src"
      }
@@ -116,7 +116,7 @@
       "description": "EventEmitter Class"
      },
      "meta": {
-      "line": 27,
+      "line": 30,
       "file": "Emitter.ts",
       "path": "src"
      }
@@ -160,14 +160,14 @@
       "description": "Event emit status"
      },
      "meta": {
-      "line": 39,
+      "line": 42,
       "file": "Emitter.ts",
       "path": "src"
      }
     }
    ],
    "meta": {
-    "line": 6,
+    "line": 9,
     "file": "Emitter.ts",
     "path": "src"
    }
@@ -222,7 +222,7 @@
       ]
      ],
      "meta": {
-      "line": 72,
+      "line": 62,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -238,7 +238,7 @@
       ]
      ],
      "meta": {
-      "line": 79,
+      "line": 69,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -254,7 +254,7 @@
       ]
      ],
      "meta": {
-      "line": 86,
+      "line": 76,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -270,7 +270,7 @@
       ]
      ],
      "meta": {
-      "line": 93,
+      "line": 83,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -286,7 +286,7 @@
       ]
      ],
      "meta": {
-      "line": 100,
+      "line": 90,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -302,7 +302,7 @@
       ]
      ],
      "meta": {
-      "line": 107,
+      "line": 97,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -331,7 +331,7 @@
       ]
      ],
      "meta": {
-      "line": 114,
+      "line": 104,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -347,7 +347,7 @@
       ]
      ],
      "meta": {
-      "line": 121,
+      "line": 111,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -397,7 +397,7 @@
       "description": "Object with the data of the created menu"
      },
      "meta": {
-      "line": 131,
+      "line": 121,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -445,7 +445,7 @@
       "description": "Returns an object with role data by reaction"
      },
      "meta": {
-      "line": 203,
+      "line": 195,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -486,7 +486,7 @@
       "description": "Returns the list of role menus by server response"
      },
      "meta": {
-      "line": 226,
+      "line": 218,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -556,7 +556,7 @@
       "description": "Modified menu data object"
      },
      "meta": {
-      "line": 245,
+      "line": 237,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -604,7 +604,7 @@
       "description": "Deletion state"
      },
      "meta": {
-      "line": 347,
+      "line": 345,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -628,7 +628,7 @@
       }
      ],
      "meta": {
-      "line": 403,
+      "line": 401,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -638,7 +638,7 @@
      "description": "Method for module database initialization",
      "access": "private",
      "meta": {
-      "line": 405,
+      "line": 379,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -648,7 +648,7 @@
      "description": "Method for starting client event tracking",
      "access": "private",
      "meta": {
-      "line": 443,
+      "line": 441,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -693,7 +693,7 @@
       "description": "EventEmitter Class"
      },
      "meta": {
-      "line": 15,
+      "line": 18,
       "file": "Emitter.ts",
       "path": "src"
      }
@@ -738,7 +738,7 @@
       "description": "EventEmitter Class"
      },
      "meta": {
-      "line": 27,
+      "line": 30,
       "file": "Emitter.ts",
       "path": "src"
      }
@@ -784,7 +784,7 @@
       "description": "Event emit status"
      },
      "meta": {
-      "line": 39,
+      "line": 42,
       "file": "Emitter.ts",
       "path": "src"
      }
@@ -808,7 +808,7 @@
       }
      ],
      "meta": {
-      "line": 525,
+      "line": 523,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -841,7 +841,7 @@
       }
      ],
      "meta": {
-      "line": 533,
+      "line": 531,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
@@ -874,14 +874,14 @@
       }
      ],
      "meta": {
-      "line": 542,
+      "line": 540,
       "file": "ReactionsRoles.ts",
       "path": "src"
      }
     }
    ],
    "meta": {
-    "line": 33,
+    "line": 23,
     "file": "ReactionsRoles.ts",
     "path": "src"
    }
@@ -917,7 +917,7 @@
       ]
      ],
      "meta": {
-      "line": 27,
+      "line": 24,
       "file": "Utils.ts",
       "path": "src"
      }
@@ -951,7 +951,7 @@
       "description": "Valid module configuration"
      },
      "meta": {
-      "line": 36,
+      "line": 33,
       "file": "Utils.ts",
       "path": "src"
      }
@@ -961,7 +961,7 @@
      "description": "Method for checking client intents",
      "access": "private",
      "meta": {
-      "line": 72,
+      "line": 69,
       "file": "Utils.ts",
       "path": "src"
      }
@@ -971,7 +971,7 @@
      "description": "Method for checking client partials",
      "access": "private",
      "meta": {
-      "line": 92,
+      "line": 89,
       "file": "Utils.ts",
       "path": "src"
      }
@@ -1014,7 +1014,7 @@
       "description": "Content parsing data"
      },
      "meta": {
-      "line": 111,
+      "line": 108,
       "file": "Utils.ts",
       "path": "src"
      }
@@ -1062,7 +1062,7 @@
       "description": "Guild Text Channel"
      },
      "meta": {
-      "line": 153,
+      "line": 150,
       "file": "Utils.ts",
       "path": "src"
      }
@@ -1121,7 +1121,7 @@
       "description": "Discord Guild Message"
      },
      "meta": {
-      "line": 179,
+      "line": 176,
       "file": "Utils.ts",
       "path": "src"
      }
@@ -1169,14 +1169,14 @@
       "description": "Guild Member Data"
      },
      "meta": {
-      "line": 208,
+      "line": 205,
       "file": "Utils.ts",
       "path": "src"
      }
     }
    ],
    "meta": {
-    "line": 21,
+    "line": 18,
     "file": "Utils.ts",
     "path": "src"
    }
@@ -1352,7 +1352,7 @@
     }
    ],
    "meta": {
-    "line": 551,
+    "line": 549,
     "file": "ReactionsRoles.ts",
     "path": "src"
    }
@@ -1452,7 +1452,7 @@
     }
    ],
    "meta": {
-    "line": 563,
+    "line": 561,
     "file": "ReactionsRoles.ts",
     "path": "src"
    }
@@ -1546,7 +1546,7 @@
     }
    ],
    "meta": {
-    "line": 577,
+    "line": 575,
     "file": "ReactionsRoles.ts",
     "path": "src"
    }
@@ -1562,6 +1562,19 @@
     ]
    ],
    "props": [
+    {
+     "name": "mentionEveryone",
+     "description": "Mentione all users",
+     "optional": true,
+     "default": true,
+     "type": [
+      [
+       [
+        "boolean"
+       ]
+      ]
+     ]
+    },
     {
      "name": "role",
      "description": "Reactin Role Data",
@@ -1622,7 +1635,7 @@
     }
    ],
    "meta": {
-    "line": 590,
+    "line": 588,
     "file": "ReactionsRoles.ts",
     "path": "src"
    }
@@ -1662,7 +1675,7 @@
     }
    ],
    "meta": {
-    "line": 602,
+    "line": 601,
     "file": "ReactionsRoles.ts",
     "path": "src"
    }
@@ -1681,6 +1694,7 @@
     {
      "name": "started",
      "description": "Reactions Roles Menu Start Message",
+     "optional": true,
      "type": [
       [
        [
@@ -1692,6 +1706,7 @@
     {
      "name": "ended",
      "description": "Reactions Roles Menu End Message",
+     "optional": true,
      "type": [
       [
        [
@@ -1702,7 +1717,7 @@
     }
    ],
    "meta": {
-    "line": 611,
+    "line": 610,
     "file": "ReactionsRoles.ts",
     "path": "src"
    }
@@ -1786,7 +1801,7 @@
     }
    ],
    "meta": {
-    "line": 620,
+    "line": 619,
     "file": "ReactionsRoles.ts",
     "path": "src"
    }

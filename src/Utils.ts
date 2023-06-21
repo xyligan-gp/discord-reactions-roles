@@ -1,18 +1,15 @@
-import {
-    GatewayIntentBits,
-    GuildMember,
-    IntentsBitField,
-    Message,
-    Partials,
-    TextChannel
-} from "discord.js";
-
+// Import requirements
 import EmojiParser from "discord-emojis-parser";
 import { EmojiParser as EmojisParser } from "discord-message-parser";
+import { GatewayIntentBits, GuildMember, IntentsBitField, Message, Partials, TextChannel } from "discord.js";
 
+// Import module main class
 import { ReactionsRoles } from "./ReactionsRoles";
 
+// Import options interface
 import Options from "../types/Options";
+
+// Import module interfaces
 import { ParsedEmoji } from "../types/Data";
 
 export class Utils {
@@ -104,7 +101,7 @@ export class Utils {
         const clientPartials = this.reactionsRoles.client.options.partials;
 
         for(const partial of defaultPartials) {
-            if(!clientPartials.includes(partial)) throw new Error(`Missing required client intent: '${Partials[partial]}'!`);
+            if(!clientPartials.includes(partial)) throw new Error(`Missing required client partial: '${Partials[partial]}'!`);
         }
     }
 
